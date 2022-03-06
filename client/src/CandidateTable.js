@@ -9,6 +9,7 @@ import Paper from "@mui/material/Paper";
 import { Button } from "@mui/material";
 
 const CandidateTable = ({ data, callback}) => {
+  console.log('init candidate')
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -30,7 +31,7 @@ const CandidateTable = ({ data, callback}) => {
               </TableCell>
               <TableCell align="right">{candidate.name}</TableCell>
               <TableCell align="right">{candidate.voteCount}</TableCell>
-              <TableCell align="left">
+              <TableCell align="left" style={{border: 'none'}}>
                 <Button
                   variant="contained"
                   color="success"

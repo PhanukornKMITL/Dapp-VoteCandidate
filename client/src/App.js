@@ -46,25 +46,38 @@ function App() {
         Electionabi.abi,
         networkData.address
       );
-      const candidate1 = await election.methods.candidates(1).call();
-      const candidate2 = await election.methods.candidates(2).call();
+
       SetElectionSM(election);
-      let tempData = {
-        candidates: [candidate1, candidate2],
-        contract: election,
-      };
-      setData(tempData);
+      await updateCandidates(election);
       setloading(false);
     } else {
       window.alert("the smartcontract is not deployed current network");
     }
   };
 
+  async function updateCandidates(electionContract) {
+    const candidate1 = await electionContract.methods.candidates(1).call();
+    const candidate2 = await electionContract.methods.candidates(2).call();
+    let tempData = {
+      candidates: [candidate1, candidate2],
+      contract: electionContract,
+    };
+    setData(tempData);
+  }
+
   async function voteCandidate(candidateId) {
     try {
-      const message = await ElectionSM.methods.vote(candidateId).call();
-      alert("Vote success");
+      setloading(true);
+      await ElectionSM.methods
+        .vote(candidateId)
+        .send({ from: String(currentAccount) })
+        .on("transactionhash", () => {
+          alert("Vote success");
+        });
+      await updateCandidates(ElectionSM);
+      setloading(false);
     } catch (err) {
+      console.log(err);
       alert("error");
     }
   }
