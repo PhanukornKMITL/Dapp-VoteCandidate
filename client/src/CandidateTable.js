@@ -34,10 +34,9 @@ const CandidateTable = ({ data, callback}) => {
               <TableCell align="left" style={{border: 'none'}}>
                 <Button
                   variant="contained"
-                  color="success"
                   onClick={() => callback(candidate.id)}
                 >
-                  Success
+                  Vote
                 </Button>
               </TableCell>
             </TableRow>
